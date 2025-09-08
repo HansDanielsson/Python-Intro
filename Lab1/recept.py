@@ -9,12 +9,12 @@ def recept(antal):
   orginal_antal = 4
   print("Recept för sockerkaka till ", antal, "personer:")
   print(round(3 * antal / orginal_antal), "st ägg")
-  print(round(3 * antal / orginal_antal), "dl strösocker")
-  print(round(2 * antal / orginal_antal), "tsk vaniljsocker")
-  print(round(2 * antal / orginal_antal), "tsk bakpulver")
-  print(round(3 * antal / orginal_antal), "dl vetemjöl")
-  print(round(75 * antal / orginal_antal), "g smör")
-  print(round(1 * antal / orginal_antal), "dl vatten")
+  print(3 * antal / orginal_antal, "dl strösocker")
+  print(2 * antal / orginal_antal, "tsk vaniljsocker")
+  print(2 * antal / orginal_antal, "tsk bakpulver")
+  print(3 * antal / orginal_antal, "dl vetemjöl")
+  print(75 * antal / orginal_antal, "g smör")
+  print(1 * antal / orginal_antal, "dl vatten")
   
 def tidblanda(antal):
   return 10 + antal
