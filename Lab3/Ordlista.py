@@ -16,31 +16,29 @@ def printmeny():
   return input("Choose alternative (1-4): ")
 
 # Simple dictionary program using lists of strings
-list1 = []
-list2 = []
 
-def check_mod1(word):
+def check_mod1(word, list1):
   return word in list1
 
-def insert_mod1():
+def insert_mod1(list1, list2):
   itemword, itemmeaning = wordtoinsert()
-  if check_mod1(itemword):
+  if check_mod1(itemword, list1):
     print(f"{itemword} already exists in the dictionary.")
     return
   list1.append(itemword)
   list2.append(itemmeaning)
 
-def lookup_mod1():
+def lookup_mod1(list1, list2):
   word = wordtolookup()
-  if check_mod1(word):
+  if check_mod1(word, list1):
     index = list1.index(word)
     print(f"Description for {word} : {list2[index]}")
   else:
     print(f"{word} not found in the dictionary.")
 
-def delete_mod1():
+def delete_mod1(list1, list2):
   word = wordtolookup()
-  if check_mod1(word):
+  if check_mod1(word, list1):
     index = list1.index(word)
     list1.pop(index)
     list2.pop(index)
@@ -49,61 +47,59 @@ def delete_mod1():
     print(f"{word} not found in the dictionary.")
 
 # Dictionary program using list of tuples
-list_of_tuples = []
 
-def check_mod2(word):
-  for w, m in list_of_tuples:
+def check_mod2(word, list):
+  for w, m in list:
     if w == word:
       return True
   return False
 
-def insert_mod2():
+def insert_mod2(list, dummy):
   itemword, itemmeaning = wordtoinsert()
-  if check_mod2(itemword):
+  if check_mod2(itemword, list):
     print(f"{itemword} already exists in the dictionary.")
     return
-  list_of_tuples.append((itemword, itemmeaning))
+  list.append((itemword, itemmeaning))
   
-def lookup_mod2():
+def lookup_mod2(list, dummy):
   word = wordtolookup()
-  for w, m in list_of_tuples:
+  for w, m in list:
     if w == word:
       print(f"Description for {word} : {m}")
       return
   print(f"{word} not found in the dictionary.")
   
-def delete_mod2():
+def delete_mod2(list, dummy):
   word = wordtolookup()
-  for i, (w, m) in enumerate(list_of_tuples):
+  for i, (w, m) in enumerate(list):
     if w == word:
-      list_of_tuples.pop(i)
+      list.pop(i)
       print(f"{word} has been deleted from the dictionary.")
       return
   print(f"{word} not found in the dictionary.")
   
 # Dictionary program using dictionary data structure
-dictionary = {}
 
-def check_mod3(word):
+def check_mod3(word, dictionary):
   return word in dictionary
 
-def insert_mod3():
+def insert_mod3(dictionary, dummy):
   itemword, itemmeaning = wordtoinsert()
-  if check_mod3(itemword):
+  if check_mod3(itemword, dictionary):
     print(f"{itemword} already exists in the dictionary.")
     return
   dictionary[itemword] = itemmeaning
 
-def lookup_mod3():
+def lookup_mod3(dictionary, dummy):
   word = wordtolookup()
-  if check_mod3(word):
+  if check_mod3(word, dictionary):
     print(f"The meaning of {word} : {dictionary[word]}")
   else:
     print(f"{word} not found in the dictionary.")
 
-def delete_mod3():
+def delete_mod3(dictionary, dummy):
   word = wordtolookup()
-  if check_mod3(word):
+  if check_mod3(word, dictionary):
     del dictionary[word]
     print(f"{word} has been deleted from the dictionary.")
   else:
@@ -115,17 +111,17 @@ def delete_mod3():
   lookfunc = lookup function
   delfunc = delete function
   """
-def main_exec(insfunc, lookfunc, delfunc):
+def main_exec(insfunc, lookfunc, delfunc, list1, list2):
   meny = True
   while meny:
     val = printmeny()
 
     if val == '1':
-      insfunc()
+      insfunc(list1, list2)
     elif val == '2':
-      lookfunc()
+      lookfunc(list1, list2)
     elif val == '3':
-      delfunc()
+      delfunc(list1, list2)
     elif val == '4':
       meny = False
       print("Exit program.")
@@ -133,10 +129,16 @@ def main_exec(insfunc, lookfunc, delfunc):
       print("Invalid choice, please try again.")
     
 def main_mod1():
-  main_exec(insert_mod1, lookup_mod1, delete_mod1)
+  list1 = []
+  list2 = []
+  main_exec(insert_mod1, lookup_mod1, delete_mod1, list1, list2)
       
 def main_mod2():
-  main_exec(insert_mod2, lookup_mod2, delete_mod2)
+  list_of_tuples = []
+  dummy = []
+  main_exec(insert_mod2, lookup_mod2, delete_mod2, list_of_tuples, dummy)
       
 def main_mod3():
-  main_exec(insert_mod3, lookup_mod3, delete_mod3)
+  dictionary = {}
+  dummy = {}
+  main_exec(insert_mod3, lookup_mod3, delete_mod3, dictionary, dummy)
