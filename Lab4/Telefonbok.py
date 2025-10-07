@@ -171,23 +171,27 @@ def printbok(phonebook):
 
 def main():
   phonebook = []
-  notquit = True
-  while notquit:
-    command = input("phoneBook>").split()
-    firstcommand = command[0]
-    if firstcommand == "add":
-      addcommand(command, phonebook)
-    elif firstcommand == "lookup":
-      lookupcommand(command, phonebook)
-    elif firstcommand == "alias":
-      aliascommand(command, phonebook)
-    elif firstcommand == "change":
-      changecommand(command, phonebook)
-    elif firstcommand == "save":
-      savecommand(command, phonebook)
-    elif firstcommand == "load":
-      loadcommand(command, phonebook)
-    elif firstcommand == "print":
-      printbok(phonebook)
-    elif firstcommand == "quit":
-      notquit = False
+  while True:
+    try:
+      command = input("phoneBook>").strip().split()
+      if not command:
+        continue # hoppa över tomma rader
+      cmd = command[0].lower()
+      if cmd == "add":
+        addcommand(command, phonebook)
+      elif cmd == "lookup":
+        lookupcommand(command, phonebook)
+      elif cmd == "alias":
+        aliascommand(command, phonebook)
+      elif cmd == "change":
+        changecommand(command, phonebook)
+      elif cmd == "save":
+        savecommand(command, phonebook)
+      elif cmd == "load":
+        loadcommand(command, phonebook)
+      elif cmd == "print":
+        printbok(phonebook)
+      elif cmd == "quit":
+        break
+    except Exception as e:
+      print(f"Fel: {e}")
