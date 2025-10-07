@@ -36,7 +36,7 @@ Huvudrutin som simmulerar anslagstavlor för 2 personer
 """
 def main():
   # Skapa 2 anslagstavlor
-  board = [Board("Board1:\n"),Board("Board2:\n")]
+  board = [Board("Board1:\n"),Board("Board2:")]
   # Initiera Kim och Chris till olika anslagstavlor
   kim = 0
   chris = 1
