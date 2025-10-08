@@ -17,6 +17,15 @@ def itemsearch(skey, item, phonebook):
       return index
   
   return -1
+
+"""
+Rutin som letar i phonebook och skriver ut ett meddelande om inte det finns.
+"""
+def checkitem(msg, skey, item, phonebook):
+  result = itemsearch(skey, item, phonebook)
+  if result != -1:
+    print(item + " " + msg)
+  return result
       
 """
 Lägger till en ny post i phonebook om både namn och nummer är unika.
@@ -27,16 +36,15 @@ def addcommand(command, phonebook):
   if len(command) < 3:
     return
   
-  name = command[1]
   number = command[2]
   
   # Kontrollerar om numret redan finns.
-  if itemsearch("Number", number, phonebook) != -1:
-    print(number + " already exists")
+  if checkitem("already exists", "Number", number, phonebook) != -1:
     return
   
-  if itemsearch("Name", name, phonebook) != -1:
-    print(name + " already exists")
+  name = command[1]
+  
+  if checkitem("already exists", "Name", name, phonebook) != -1:
     return
 
   phonebook.append({"Name": name + ",", "Number": number})
@@ -50,11 +58,9 @@ def lookupcommand(command, phonebook):
   
   name = command[1]
   
-  posindex = itemsearch("Name", name, phonebook)
+  posindex = checkitem("not found", "Name", name, phonebook)
   
-  if posindex == -1:
-    print(name + " not found")
-  else:
+  if posindex != -1:
     print(phonebook[posindex]["Number"])
 
 """
@@ -64,21 +70,18 @@ def aliascommand(command, phonebook):
   if len(command) < 3:
     return
   
-  name = command[1]
   newname = command[2]
   
   # Kontroll: aliasnamnet får inte redan finnas
-  if itemsearch("Name", newname, phonebook) != -1:
-    print("name not found or duplicate name")
+  if checkitem("name not found or duplicate name", "Name", newname, phonebook) != -1:
     return
   
+  name = command[1]
+  
   # Hitta den post där orginalnamnet finns.
-  posindex = itemsearch("Name", name, phonebook)
-  if posindex == -1:
-    print("name not found or duplicate name")
-    return
-
-  phonebook[posindex]["Name"] += newname + ","
+  posindex = checkitem("name not found or duplicate name", "Name", name, phonebook)
+  if posindex != -1:
+    phonebook[posindex]["Name"] += newname + ","
   
 """
 Ändrar numret för en kontakt med det givna namnet, om
@@ -89,21 +92,18 @@ def changecommand(command, phonebook):
   if len(command) < 3:
     return
   
-  name = command[1]
   number = command[2]
   
   # Kontrollera om numret redan finns någon annanstans.
-  if itemsearch("Number", number, phonebook) != -1:
-    print(number + " already exists")
+  if checkitem("already exists", "Number", number, phonebook) != -1:
     return
+  
+  name = command[1]
 
   # Hitta posten som innehåller namnet
-  posindex = itemsearch("Name", name, phonebook)
-  if posindex == -1:
-    print(name + " not found")
-    return
-
-  phonebook[posindex]["Number"] = number
+  posindex = checkitem("not found", "Name", name, phonebook)
+  if posindex != -1:
+    phonebook[posindex]["Number"] = number
   
 """
 Sparar phonebook ut på text fil
@@ -148,7 +148,6 @@ def loadcommand(command, phonebook):
       # loopa igenom filen
       for post in f:
         item = [p.strip() for p in post.strip().split(";") if p.strip()]
-        print(item)
         if len(item) != 2:
           continue
         
@@ -173,7 +172,7 @@ def main():
   phonebook = []
   while True:
     try:
-      command = input("phoneBook>").strip().split()
+      command = input("phoneBook>").split()
       if not command:
         continue # hoppa över tomma rader
       cmd = command[0].lower()
