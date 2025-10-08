@@ -44,10 +44,8 @@ def addcommand(command, phonebook):
   
   name = command[1]
   
-  if checkitem("already exists", "Name", name, phonebook) != -1:
-    return
-
-  phonebook.append({"Name": name + ",", "Number": number})
+  if checkitem("already exists ", "Name", name, phonebook) == -1:
+    phonebook.append({"Name": name + ",", "Number": number})
 
 """
 Söker efter ett namn i phonebook och skriver ut tillhörand nummer.
